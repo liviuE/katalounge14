@@ -18,7 +18,7 @@ public class DictionaryReplacer {
 	private static void replaceDictionaryWords(StringBuilder result, Map<String, String> dictionary) {
 		int nextIndex;
 		int[] toBeReplaced = findNextWord(result, 0);
-
+			
 		while (toBeReplaced != null) {
 			nextIndex = replaceWord(toBeReplaced[0], toBeReplaced[1], result, dictionary);
 			
@@ -27,15 +27,16 @@ public class DictionaryReplacer {
 	}
 
 	private static int replaceWord(int wordStartIndex, int wordLength, StringBuilder text, Map<String, String> dictionary) {
-		String word = text.substring(wordStartIndex + 1, wordLength + 1);
+		String word = text.substring(wordStartIndex + 1, wordStartIndex + wordLength - 1);
 		
 		if (dictionary.containsKey(word)) {
-			text.delete(wordStartIndex, wordLength);
+			text.delete(wordStartIndex, wordStartIndex + wordLength);
 			
 			text.insert(wordStartIndex, dictionary.get(word));
+			return wordStartIndex + dictionary.get(word).length();
 		}
 		
-		return wordStartIndex + dictionary.get(word).length();
+		return wordStartIndex + 1;
 	}
 
 	private static int[] findNextWord(StringBuilder text, int startIndex) {
